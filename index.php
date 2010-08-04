@@ -33,7 +33,7 @@ if (count($_POST) > 0 || isset($_GET['borrar']) || isset($_GET['touch']))
 		setcookie('id-user', $_COOKIE['id-user'], time() + 30 * 24 * 60 * 60);
 	}
 
-//	header('location:index.php');die;
+	header('location:index.php');die;
 }
 
 
@@ -72,5 +72,27 @@ while ($usuario = $query->fetchObject())
 echo '</table></form>';
 ?>
 
+<div>
+<h2>The Discovery of Debugging</h2>
+
+<p>Debugging was a surprise. When the early computer pioneers built the
+first programmable computers, they assumed that writing programs would
+be straightforward: think hard, write the program, done.</p>
+
+<p>Maurice Wilkes, creator of the EDSAC, the first stored-program
+computer, wrote what might be the first programming textbook in 1951,
+	with David Wheeler (inventor of the subroutine call!) and Stanley
+	Gill. It warns: "Experience has shown that such mistakes are much more
+	difficult to avoid than might be expected. It is, in fact, rare for a
+	program to work correctly the first time it is tried, and often
+	several attempts must be made before all errors are eliminated."</p>
+
+<p>	In his memoir, Wilkes recalled the exact moment he realized the
+	importance of debugging: "By June 1949, people had begun to realize
+	that it was not so easy to get a program right as had at one time
+	appeared. It was on one of my journeys between the EDSAC room and the
+	punching equipment that the realization came over me with full force
+	that a good part of the remainder of my life was going to be spent in
+	finding errors in my own programs."</p>
 <img src="facepalm1.jpg" /><br /><br />
 <object width="480" height="385"><param name="movie" value="http://www.youtube.com/v/wjLgekyOZA0&hl=en_US&fs=1&"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/wjLgekyOZA0&hl=en_US&fs=1&" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object>
