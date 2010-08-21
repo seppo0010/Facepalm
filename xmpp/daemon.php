@@ -36,7 +36,8 @@ while(!$conn->isDisconnected()) {
 	}
 }
 class FacepalmClient {
-	const BASE_URL = 'http://seppo.is-a-geek.com/facepalm.delapalo.net/web/api/';
+//	const BASE_URL = 'http://seppo.is-a-geek.com/facepalm.delapalo.net/web/api/'; // Test URL
+	const BASE_URL = 'http://facepalm.delapalo.net/api/'; // Production URL
 
 	public function facepalm($identifier, $message) {
 		$info = $identifier;
