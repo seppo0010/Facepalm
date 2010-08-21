@@ -42,6 +42,8 @@ class Facepalm {
 
 	function remove() {
 		self::$db->query('DELETE FROM facepalm WHERe id = ' . $this->id);
+		self::$db->query('DELETE FROM facepalm_log WHERe user_id = ' . $this->id);
+		self::$db->query('DELETE FROM user_mail WHERe user_id = ' . $this->id);
 	}
 
 	function fetchHistory() {
@@ -76,10 +78,10 @@ class Facepalm {
 	}
 
 	static function fetchFromNickname($nickname) {
-		$query = self::$db->query('SELECT user_id FROM facepalm WHERE nombre = ' . self::$db->quote($nickname));
+		$query = self::$db->query('SELECT id FROM facepalm WHERE nombre = ' . self::$db->quote($nickname));
 		$user = @$query->fetchObject();
 		if ($user == null) return null;
-		else return new self($user->user_id);
+		else return new self($user->id);
 	}
 
 	static function identify($info) {
