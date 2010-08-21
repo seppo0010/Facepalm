@@ -2,7 +2,7 @@
 $id = NULL;
 //error_reporting(E_NONE);
 date_default_timezone_set('America/Argentina/Buenos_Aires');
-$filename=dirname(__FILE__) . '/db.sql';
+$filename=dirname(__FILE__) . '/../db.sql';
 $is_new_database = !is_file($filename);
 //$database = new SQLiteDatabase($filename);
 $database = new PDO('sqlite:' . $filename);
