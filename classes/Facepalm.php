@@ -35,6 +35,10 @@ class Facepalm {
 		self::$db->query('DELETE FROM facepalm WHERe id = ' . $this->id);
 	}
 
+	function fetchHistory() {
+		$query = self::$db->query('SELECT * FROM facepalm_log WHERE user_id = ' . $this->id .' ORDER BY fecha DESC');
+		return $query->fetchAll(PDO::FETCH_OBJ);
+	}
 
 	static function create($name) {
 		if (empty($name)) return 0;
