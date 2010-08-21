@@ -1,0 +1,3 @@
+Setup the Enviroment
+
+It requires PDO, PDO_sqlite (enable the extensions on php.ini) and writing permissions on the current folder to create the database.

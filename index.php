@@ -1,6 +1,7 @@
 <?php
 $id = NULL;
-error_reporting(E_NONE);
+//error_reporting(E_NONE);
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 $filename='db.sql';
 $is_new_database = !is_file($filename);
 //$database = new SQLiteDatabase($filename);
@@ -48,7 +49,7 @@ Una aplicaci&oacute;n que trackea cu&aacute;nto tiempo pasamos sin pensar "qu&ea
 <br /><br />
 Bienvenido <?php echo $user; ?><br />
 <a href="index.php?touch=<?php echo $id; ?>" style="text-align:center;border:2px solid #999; line-height:24px;text-decoration:none;display:block;background:#000; color:#fff; width:100px; height: 24px;">Facepalm</a><br />
-<?php } ?>
+<?php } ?>
 <br /><br />
 <?php
 echo '<form action="index.php" method="post"><table><tr><th>Nombre</th><th>Fecha</th></tr>';
@@ -73,6 +74,7 @@ echo '</table></form>';
 ?>
 
 <div>
+<img src="facepalm_palmera.jpg" /><br /><br />
 <h2>The Discovery of Debugging</h2>
 
 <p>Debugging was a surprise. When the early computer pioneers built the
