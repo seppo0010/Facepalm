@@ -6,7 +6,7 @@ if (count($_POST) > 0 || isset($_GET['borrar']) || isset($_GET['touch']))
 	if ($_GET['touch'] > 0)
 	{
 		$facepalm = new Facepalm($_GET['touch']);
-		$facepalm->touch();
+		$facepalm->touch($_GET['reason']);
 		$_COOKIE['id-user'] = (int)$_GET['touch'].'-'.$facepalm->name();
 		setcookie('id-user', $_COOKIE['id-user'], time() + 30 * 24 * 60 * 60);
 	}
@@ -29,6 +29,14 @@ if (count($_POST) > 0 || isset($_GET['borrar']) || isset($_GET['touch']))
 
 $users = Facepalm::fetchlist();
 ?>
+<script type="text/javascript">
+function confirm_user(username, id) {
+	var text = prompt('Razón del Facepalm para ' + username + '?');
+	if (text != null) {
+		location.href = 'index.php?touch=' + id + '&reason=' + encodeURI(text);
+	}
+}
+</script>
 <style type="text/css">
 tr.self td { font-size: 20px; }
 </style>
@@ -47,7 +55,7 @@ foreach ($users as $usuario)
         echo '<tr' . ($usuario->id != $id ? '' : ' class="self"') . '>
 		<td>' , htmlentities($usuario->nombre, ENT_QUOTES) , '</td>
 		<td'. ($usuario->fecha + 60 * 60 * 24 < time() ? ' style="color:#f00"' : '') . '>' .date('Y-m-d H:i:s', $usuario->fecha) .' </td>
-		<td><a href="index.php?touch=' . $usuario->id . '" ' . ($usuario->id == $id ? '' : 'onclick="if(!confirm(\'tas seguro que queres facepalmear a ' . htmlentities($usuario->nombre, ENT_QUOTES) . '\')) return false"') . '>Facepalm!</a></td>
+		<td><a href="javascript:confirm_user(\'' . htmlentities($usuario->nombre, ENT_QUOTES) . '\',' . $usuario->id . '); return false">Facepalm!</a></td>
 		<td><a href="index.php?borrar=' . $usuario->id . '" onclick="if(!confirm(\'tas seguro, flakito?\')) return false">Borrar</a></td>
 		<td><input type="hidden" name="old_nombre['. $usuario->id .']" value="' , htmlentities($usuario->nombre, ENT_QUOTES) , '" /><input type="hidden" name="old_gustos['.$usuario->id .']" value="' , htmlentities($usuario->gustos, ENT_QUOTES) , '" /><input type="hidden" name="old_heladeria['.$usuario->id .']" value="' , htmlentities($usuario->heladeria, ENT_QUOTES) , '" /></td>
 		<td width="60%"><div style="background:blue; width: '. round((time() - $usuario->fecha) / 60 / 60 / 24 * 100 / 30,2) . '%; height:10px;"</td>

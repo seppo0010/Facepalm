@@ -7,8 +7,8 @@ class Facepalm {
 		$this->id = (int)$id;
 	}
 
-	function touch() {
-		self::$db->query('INSERT INTO facepalm_log (user_id, fecha) VALUES (' . $this->id . ', ' . time() . ')');
+	function touch($reason) {
+		self::$db->query('INSERT INTO facepalm_log (user_id, fecha, reason) VALUES (' . $this->id . ', ' . time() . ', '. self::$db->quote($reason) .')');
 		self::$db->query('UPDATE facepalm SET fecha = ' . time() . ' WHERe id = ' . $this->id);
 	}
 
@@ -18,9 +18,16 @@ class Facepalm {
 		return $user->nombre;
 	}
 
+	function lastFacepalm() {
+		$query = self::$db->query('SELECT fecha FROM facepalm WHERE id =' . $this->id);
+		$user = $query->fetchObject();
+		return $user->fecha;
+	}
+
 	function remove() {
 		self::$db->query('DELETE FROM facepalm WHERe id = ' . $this->id);
 	}
+
 
 	static function create($name) {
 		self::$db->query('INSERT INTO facepalm (nombre, fecha) VALUES (' . self::$db->quote($name) . ', ' . time() . ')');
