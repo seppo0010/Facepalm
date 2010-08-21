@@ -5,7 +5,7 @@ if (count($_POST) > 0 || isset($_GET['borrar']) || isset($_GET['touch']))
 {
 	if ($_GET['touch'] > 0)
 	{
-		$facepalm = new Facepalm($database, $_GET['touch']);
+		$facepalm = new Facepalm($_GET['touch']);
 		$facepalm->touch();
 		$_COOKIE['id-user'] = (int)$_GET['touch'].'-'.$facepalm->name();
 		setcookie('id-user', $_COOKIE['id-user'], time() + 30 * 24 * 60 * 60);
@@ -13,7 +13,7 @@ if (count($_POST) > 0 || isset($_GET['borrar']) || isset($_GET['touch']))
 
 	if ($_GET['borrar'] > 0)
 	{
-		$facepalm = new Facepalm($database, $_GET['borrar']);
+		$facepalm = new Facepalm($_GET['borrar']);
 		$facepalm->remove();
 		setcookie('id-user', '', time()-1);
 	}
