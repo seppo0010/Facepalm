@@ -103,9 +103,7 @@ class Chat {
 				self::$chats[$this->user] = NULL;
 			}
 		} else {
-			var_dump($body);
 			$response = FacepalmClientXMPP::getInstance()->addMail(array('nickname' => $body), $this->user);
-			var_dump($response);
 			if ($this->lookForErrors($response) == FALSE) {
 				if (count($this->pending) == 0) $this->message('Listo y agregado!');
 				else $this->executePending();
@@ -152,7 +150,7 @@ class Chat {
 
 	public function lookForErrors($response) {
 		if (isset($response->errormessage)) {
-			$conn->message($this->from, $response->errormessage);
+			$this->message($response->errormessage);
 		} else if (isset($response->errorcode) && $response->errorcode == 'invaliduser') {
 			$this->unknownUser();
 		} else {
