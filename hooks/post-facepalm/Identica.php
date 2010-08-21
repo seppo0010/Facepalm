@@ -12,7 +12,8 @@ class Identica {
 	}
 
 	function post_facepalm($time, $reason) {
-		$str = 'Facepalm para ' .$this->user->nombre . ' por ' . $reason;
+		if (empty($reason)) $str = 'Facepalm para ' .$this->user->nombre;
+		else $str = 'Facepalm para ' .$this->user->nombre . ' por ' . $reason;
 		if ($str > 140) $str = substr($str, 0, 137) . '...';
 		$response = Curl::do_post('https://' . (self::USERNAME . ':' . self::PASSWORD) . '@identi.ca/api/statuses/update.json', array('status' => $str));
 	}
