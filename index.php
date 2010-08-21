@@ -1,35 +1,25 @@
 <?php
-$id = NULL;
-//error_reporting(E_NONE);
-date_default_timezone_set('America/Argentina/Buenos_Aires');
-$filename='db.sql';
-$is_new_database = !is_file($filename);
-//$database = new SQLiteDatabase($filename);
-$database = new PDO('sqlite:' . $filename);
-if ($is_new_database)
-{
-        $database->query('CREATE TABLE facepalm ( id INTEGER PRIMARY KEY, nombre TEXT, fecha NUMERIC )');
-}
+require 'boot.php';
+
 if (count($_POST) > 0 || isset($_GET['borrar']) || isset($_GET['touch']))
 {
 	if ($_GET['touch'] > 0)
 	{
-		$database->query('UPDATE facepalm SET fecha = ' . time() . ' WHERe id = ' . (int)$_GET['touch']);
-		$query = $database->query('SELECT nombre FROM facepalm WHERE id =' . (int)$_GET['touch']);
-		$usuario = $query->fetchObject();
-		$_COOKIE['id-user'] = (int)$_GET['touch'].'-'.$usuario->nombre;
+		$facepalm = new Facepalm($database, $_GET['touch']);
+		$facepalm->touch();
+		$_COOKIE['id-user'] = (int)$_GET['touch'].'-'.$facepalm->name();
 		setcookie('id-user', $_COOKIE['id-user'], time() + 30 * 24 * 60 * 60);
 	}
 
 	if ($_GET['borrar'] > 0)
 	{
-		$database->query('DELETE FROM facepalm WHERe id = ' . (int)$_GET['borrar']);
+		$facepalm = new Facepalm($database, $_GET['borrar']);
+		$facepalm->remove();
 		setcookie('id-user', '', time()-1);
 	}
 	if ($_POST['nombre_nuevo'])
 	{
-		$database->query('INSERT INTO facepalm (nombre, fecha) VALUES (' . $database->quote($_POST['nombre_nuevo']) . ', ' . time() . ')');
-		$id = $database->lastInsertId();
+		$id = Facepalm::create($_POST['nombre_nuevo']);
 		$_COOKIE['id-user'] = $id.'-'.$_POST['nombre_nuevo'];
 		setcookie('id-user', $_COOKIE['id-user'], time() + 30 * 24 * 60 * 60);
 	}
@@ -37,8 +27,7 @@ if (count($_POST) > 0 || isset($_GET['borrar']) || isset($_GET['touch']))
 	header('location:index.php');die;
 }
 
-
-$query = $database->query('SELECT * FROM facepalm ORDER BY nombre ASC, id ASC');
+$users = Facepalm::fetchlist();
 ?>
 <style type="text/css">
 tr.self td { font-size: 20px; }
@@ -53,7 +42,7 @@ Bienvenido <?php echo $user; ?><br />
 <br /><br />
 <?php
 echo '<form action="index.php" method="post"><table><tr><th>Nombre</th><th>Fecha</th></tr>';
-while ($usuario = $query->fetchObject())
+foreach ($users as $usuario)
 {
         echo '<tr' . ($usuario->id != $id ? '' : ' class="self"') . '>
 		<td>' , htmlentities($usuario->nombre, ENT_QUOTES) , '</td>
