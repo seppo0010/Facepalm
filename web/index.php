@@ -55,7 +55,7 @@ Una aplicaci&oacute;n que trackea cu&aacute;nto tiempo pasamos sin pensar "qu&ea
 <?php list($id, $user) = explode('-', $_COOKIE['id-user']); ?>
 <br /><br />
 Bienvenido <?php echo $user; ?><br />
-<a href="index.php?touch=<?php echo $id; ?>" style="text-align:center;border:2px solid #999; line-height:24px;text-decoration:none;display:block;background:#000; color:#fff; width:100px; height: 24px;">Facepalm</a><br />
+<a href="javascript:confirm_user('<?php echo htmlentities($user, ENT_QUOTES) . '\',' . $id; ?>); return false" style="text-align:center;border:2px solid #999; line-height:24px;text-decoration:none;display:block;background:#000; color:#fff; width:100px; height: 24px;">Facepalm</a><br />
 <?php } ?>
 <br /><br />
 <?php
