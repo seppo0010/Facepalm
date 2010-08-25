@@ -5,16 +5,20 @@ class Facepalm {
 	var $id;
 	var $nombre;
 	var $fecha;
+	var $facebook_id;
+	var $access_token;
 
 	function __construct($id = NULL) {
 		$this->id = (int)$id;
-		$query = self::$db->query('SELECT nombre, fecha FROM facepalm WHERE id =' . $this->id);
+		$query = self::$db->query('SELECT nombre, fecha, facebook_id, access_token FROM facepalm WHERE id =' . $this->id);
 		$user = @$query->fetchObject();
 		if ($user == null) {
 			$this->id = 0;
 		} else {
 			$this->nombre = $user->nombre;
 			$this->fecha = $user->fecha;
+			$this->facebook_id = $user->facebook_id;
+			$this->access_token = $user->access_token;
 		}
 	}
 
@@ -84,6 +88,13 @@ class Facepalm {
 		else return new self($user->id);
 	}
 
+	static function fetchFromFacebookId($facebook_id) {
+		$query = self::$db->query('SELECT id FROM facepalm WHERE facebook_id = ' . self::$db->quote($facebook_id));
+		$user = @$query->fetchObject();
+		if ($user == null) return null;
+		else return new self($user->id);
+	}
+
 	static function identify($info) {
 		if (isset($info['id'])) {
 			$user = new Facepalm($info['id']);
@@ -97,6 +108,26 @@ class Facepalm {
 			$user = self::fetchFromNickname($info['nickname']);
 			if ($user != null) return $user;
 		}
+		if (isset($info['facebook_id'])) {
+			$user = self::fetchFromFacebookId($info['facebook_id']);
+			if ($user != null) return $user;
+		}
+
 		return null;
+	}
+
+	function setFacebook($facebook_id, $access_token) {
+		self::$db->query('UPDATE facepalm SET facebook_id = ' . self::$db->quote($facebook_id) . ', access_token = ' . self::$db->quote($access_token) . ' WHERE id = ' . $this->id .' AND facebook_id = "" AND access_token = ""');
+	}
+
+	function clearFacebook() {
+		self::$db->query('UPDATE facepalm SET facebook_id = "", access_token = "" WHERE id = ' . $this->id);
+	}
+
+	function facebookUserHasFacepalm($facebook_id) {
+		$query = self::$db->query('SELECT id FROM facepalm WHERE facebook_id = ' . self::$db->quote($facebook_id));
+		$user = @$query->fetchObject();
+		if ($user == null) return null;
+		else return $user->id > 0;
 	}
 }

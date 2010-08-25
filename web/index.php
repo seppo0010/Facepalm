@@ -28,6 +28,16 @@ if (count($_POST) > 0 || isset($_GET['borrar']) || isset($_GET['touch']))
 }
 
 $users = Facepalm::fetchlist();
+if ($facebook->getSession()) {
+	$uid = $facebook->getUser();
+	$can_associate = !Facepalm::facebookUserHasFacepalm($uid);
+	if (!$can_associate) $fb_button = '<a href="remove_facebook.php">Desconectar mi Cuenta de Facebook</a>';
+	else $fb_button = '';
+} else {
+	$fb_button = '<a href="' . $facebook->getLoginUrl() . '">Conectarse con Facebook</a>';
+	$can_associate = FALSE;
+}
+
 ?>
 <script type="text/javascript">
 function confirm_user(username, id) {
@@ -49,11 +59,14 @@ Bienvenido <?php echo $user; ?><br />
 <?php } ?>
 <br /><br />
 <?php
-echo '<form action="index.php" method="post"><table><tr><th>Nombre</th><th>Fecha</th></tr>';
+echo '<form action="index.php" method="post"><table><tr><th></th><th>Nombre</th><th>Fecha</th></tr>';
 foreach ($users as $usuario)
 {
-        echo '<tr' . ($usuario->id != $id ? '' : ' class="self"') . '>
-		<td>' , htmlentities($usuario->nombre, ENT_QUOTES) , '</td>
+        echo '<tr' . ($usuario->id != $id ? '' : ' class="self"') . '>';
+		if ($can_associate) echo '<td><a href="https://graph.facebook.com/oauth/authorize?client_id=146881561998534&redirect_uri=http://facepalm.delapalo.net/associate_facebook.php?id=' . $usuario->id . '&scope=publish_stream,offline_access">Asociar a Facebook</a></td>';
+		else if ($uid > 0 && $uid == $usuario->facebook_id) echo '<td>Vos</td>';
+		else echo '<td></td>';
+		echo '<td>' , htmlentities($usuario->nombre, ENT_QUOTES) , '</td>
 		<td'. ($usuario->fecha + 60 * 60 * 24 < time() ? ' style="color:#f00"' : '') . '>' .date('Y-m-d H:i:s', $usuario->fecha) .' </td>
 		<td><a href="javascript:confirm_user(\'' . htmlentities($usuario->nombre, ENT_QUOTES) . '\',' . $usuario->id . '); return false">Facepalm!</a></td>
 		<td><a href="index.php?borrar=' . $usuario->id . '" onclick="if(!confirm(\'tas seguro, flakito?\')) return false">Borrar</a></td>
@@ -63,11 +76,13 @@ foreach ($users as $usuario)
 }
 ?>
 <tr>
-<td><input type="text" name="nombre_nuevo" /></td>
+<td colspan="2"><input type="text" name="nombre_nuevo" /></td>
 </tr>
 <tr><td colspan="2"><input type="submit" value="Guardar" /></td></tr>
 <?php
 echo '</table></form>';
+echo $fb_button;
+if ($uid > 0) echo ' <a href="' . $facebook->getLogoutUrl() .'" onclick="if (!confirm(\'Esto no va a evitar que se posteen tus facepalms.\')) return false;">Salir de Facebook</a>';
 ?>
 
 <div>
