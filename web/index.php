@@ -63,7 +63,7 @@ echo '<form action="index.php" method="post"><table><tr><th></th><th>Nombre</th>
 foreach ($users as $usuario)
 {
         echo '<tr' . ($usuario->id != $id ? '' : ' class="self"') . '>';
-		if ($can_associate) echo '<td><a href="https://graph.facebook.com/oauth/authorize?client_id=146881561998534&redirect_uri=http://facepalm.delapalo.net/associate_facebook.php?id=' . $usuario->id . '&scope=publish_stream,offline_access">Asociar a Facebook</a></td>';
+		if ($can_associate && $usuario->facebook_id == '') echo '<td><a href="https://graph.facebook.com/oauth/authorize?client_id=146881561998534&redirect_uri=http://facepalm.delapalo.net/associate_facebook.php?id=' . $usuario->id . '&scope=publish_stream,offline_access">Asociar a Facebook</a></td>';
 		else if ($uid > 0 && $uid == $usuario->facebook_id) echo '<td>Vos</td>';
 		else echo '<td></td>';
 		echo '<td>' , htmlentities($usuario->nombre, ENT_QUOTES) , '</td>
