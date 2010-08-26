@@ -11,7 +11,7 @@ class Facebook_hook {
 
 	function post_facepalm($time, $reason) {
 		if (empty($reason)) $str = 'Facepalm';
-		else $str = 'Facepalm por ' . $reason;
+		else $str = 'Facepalm ' . $reason;
 		$credentials = $this->user->getSocialNetworkCredentiales(SOCIAL_NETWORK_FACEBOOK);
 		if (!$credentials) return;
 		$response = Curl::do_post('https://graph.facebook.com/me/feed', array(
