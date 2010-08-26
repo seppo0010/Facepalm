@@ -1,4 +1,5 @@
 <?php
+define('SOCIAL_NETWORK_FACEBOOK', 1);
 $id = NULL;
 //error_reporting(E_NONE);
 date_default_timezone_set('America/Argentina/Buenos_Aires');
@@ -8,9 +9,10 @@ $is_new_database = !is_file($filename);
 $database = new PDO('sqlite:' . $filename);
 if ($is_new_database)
 {
-        $database->query('CREATE TABLE facepalm ( id INTEGER PRIMARY KEY, nombre TEXT unique, fecha NUMERIC , facebook_id TEXT DEFAULT "", access_token TEXT DEFAULT "" )');
+        $database->query('CREATE TABLE facepalm ( id INTEGER PRIMARY KEY, nombre TEXT unique, fecha NUMERIC )');
         $database->query('CREATE TABLE facepalm_log ( id INTEGER PRIMARY KEY, user_id NUMERIC, fecha NUMERIC, reason TEXT )');
         $database->query('CREATE TABLE user_mail ( id INTEGER PRIMARY KEY, user_id NUMERIC, email_hash TEXT unique )');
+		$database->query('CREATE TABLE social_network (id INTEGER PRIMARY KEY,  facepalm_id INTEGER, network_id INTEGER, public_info TEXT NOT NULL, access_token TEXT NOT NULL )');
 }
 
 require dirname(__FILE__) . '/classes/Facepalm.php';
