@@ -28,6 +28,7 @@ if (count($_POST) > 0 || isset($_GET['borrar']) || isset($_GET['touch']))
 }
 
 $users = Facepalm::fetchlist();
+$uid = 0;
 if ($facebook->getSession()) {
 	$uid = $facebook->getUser();
 	$can_associate = !Facepalm::facebookUserHasFacepalm($uid);
