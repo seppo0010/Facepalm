@@ -111,9 +111,16 @@ class Facepalm {
 	}
 
 	function facebookUserHasFacepalm($facebook_id) {
-		$query = self::$db->query('SELECT id FROM social_network WHERE network_id = '.SOCIAL_NETWORK_FACEBOOK.' public_info = ' . self::$db->quote($facebook_id));
+		$query = self::$db->query('SELECT id FROM social_network WHERE network_id = '.SOCIAL_NETWORK_FACEBOOK.' AND public_info = ' . self::$db->quote($facebook_id));
 		$user = @$query->fetchObject();
 		if ($user == null) return null;
 		else return $user->id > 0;
+	}
+
+	function getSocialNetworkCredentiales($social_network) {
+		$query = self::$db->query('SELECT public_info, access_token FROM social_network WHERE network_id = '.$social_network.' AND facepalm_id  = ' . self::$db->quote($this->id));
+		$user = @$query->fetchObject();
+		if ($user == null) return null;
+		else return $user;
 	}
 }
