@@ -138,8 +138,8 @@ class Facepalm {
 		else return $user->id > 0;
 	}
 
-	static function fetchLogs($order) {
-		$query = self::$db->query('SELECT facepalm_log.reason, facepalm_log.fecha, facepalm.nombre FROM facepalm_log JOIN facepalm ON facepalm_log.user_id = facepalm.id ORDER BY ' . $order . ' LIMIT 20');
+	static function fetchLogs($user_id, $order) {
+		$query = self::$db->query('SELECT facepalm_log.user_id, facepalm_log.reason, facepalm_log.fecha, facepalm.nombre FROM facepalm_log JOIN facepalm ON facepalm_log.user_id = facepalm.id ' . ($user_id === NULL ? '' : ' WHERE facepalm_log.user_id = ' . (int)$user_id ) . ' ORDER BY ' . $order . ' LIMIT 20');
 		$return = array();
 		while ($row = $query->fetchObject()) $return[] = $row;
 		return $return;

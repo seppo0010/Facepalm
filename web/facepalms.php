@@ -2,7 +2,8 @@
 require 'boot.php';
 require 'i18n/' . $lang . '.php';
 
-$facepalms = Facepalm::fetchLogs('facepalm_log.fecha DESC');
+$order = 'facepalm_log.fecha DESC';
+$facepalms = Facepalm::fetchLogs(isset($_GET['user_id']) ? $_GET['user_id'] : NULL, $order);
 ?>
 <html>
 <head>
@@ -16,7 +17,7 @@ $facepalms = Facepalm::fetchLogs('facepalm_log.fecha DESC');
 		<?php foreach ($facepalms as $facepalm) { ?>
 			<tr>
 				<td><?php echo date('Y-m-d H:i:s', $facepalm->fecha); ?></td>
-				<td><?php echo $facepalm->nombre; ?>:</td>
+				<td><a href="facepalms.php?user_id=<?php echo $facepalm->user_id; ?> "><?php echo $facepalm->nombre; ?>:</td>
 				<td><?php echo $facepalm->reason; ?></td>
 			</tr>
 		<?php } ?>
