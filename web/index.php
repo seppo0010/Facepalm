@@ -86,7 +86,7 @@ foreach ($users as $user)
 {
         echo '<tr' . ($user->id != $id ? '' : ' class="self"') . '>';
 		if ($can_associate && Facepalm::hasFacebook($user->id) == FALSE) echo '<td><a href="https://graph.facebook.com/oauth/authorize?client_id=146881561998534&redirect_uri=' . $config['base_url'] . 'associate_facebook.php?id=' . $user->id . '&scope=publish_stream,offline_access">Asociar a Facebook</a></td>';
-		else if ($facepalm_fb != null && $user->id == $facepalm_fb->id) echo '<td>' . htmlentities($i18n['you'], ENT_QUOTES, 'UTF-8') . '</td>';
+		else if ($facepalm_fb != null && $user->id == $facepalm_fb->id) echo '<td>Facebook</td>';
 		else echo '<td></td>';
 		echo '<td>' , htmlentities($user->nombre, ENT_QUOTES, 'UTF-8') , '</td>
 		<td'. ($user->fecha + 60 * 60 * 24 < time() ? ' style="color:#f00"' : '') . '>' .date('Y-m-d H:i:s', $user->fecha) .' </td>
