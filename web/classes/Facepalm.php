@@ -123,4 +123,18 @@ class Facepalm {
 		if ($user == null) return null;
 		else return $user;
 	}
+
+	static function fetchFromFacebookId($facebook_id) {
+		$query = self::$db->query('SELECT facepalm_id FROM social_network WHERE network_id = '.SOCIAL_NETWORK_FACEBOOK.' AND public_info = ' . self::$db->quote($facebook_id));
+		$user = @$query->fetchObject();
+		if ($user == null) return null;
+		else return new self($user->facepalm_id);
+	}
+
+	static function hasFacebook($facepalm_id) {
+		$query = self::$db->query('SELECT id FROM social_network WHERE network_id = '.SOCIAL_NETWORK_FACEBOOK.' AND facepalm_id = ' . self::$db->quote($facepalm_id));
+		$user = @$query->fetchObject();
+		if ($user == null) return null;
+		else return $user->id > 0;
+	}
 }
