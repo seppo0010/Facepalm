@@ -96,7 +96,7 @@ foreach ($users as $user)
 <?php
 echo '</table></form>';
 echo $fb_button;
-if ($uid > 0) echo ' <a href="' . $facebook->getLogoutUrl() .'" onclick="if (!confirm(\'' . htmlentities($i18n['facebook_logout_warning'], ENT_QUOTE) .'\')) return false;">' . htmlentities($i18n['facebook_logout']) .'</a>';
+if ($uid > 0) echo ' <a href="' . $facebook->getLogoutUrl() .'" onclick="if (!confirm(\'' . htmlentities($i18n['facebook_logout_warning'], ENT_QUOTES) .'\')) return false;">' . htmlentities($i18n['facebook_logout']) .'</a>';
 ?>
 
 <div>
