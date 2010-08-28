@@ -1,5 +1,12 @@
 <?php
+if (isset($_GET['lang'])) {
+	setcookie('lang', $_COOKIE['lang'] = $_GET['lang']);
+	header('location:index.php');
+	die;
+}
+
 require 'boot.php';
+require 'i18n/' . $lang . '.php';
 
 if (count($_POST) > 0 || isset($_GET['borrar']) || isset($_GET['touch']))
 {
@@ -32,17 +39,17 @@ $uid = 0;
 if ($facebook->getSession()) {
 	$uid = $facebook->getUser();
 	$can_associate = !Facepalm::facebookUserHasFacepalm($uid);
-	if (!$can_associate) $fb_button = '<a href="remove_facebook.php">Desconectar mi Cuenta de Facebook</a>';
+	if (!$can_associate) $fb_button = '<a href="remove_facebook.php">' . htmlentities($i18n['facebook_disconnect']) . '</a>';
 	else $fb_button = '';
 } else {
-	$fb_button = '<a href="' . $facebook->getLoginUrl() . '">Conectarse con Facebook</a>';
+	$fb_button = '<a href="' . $facebook->getLoginUrl() . '">' . htmlentities($i18n['facebook_disconnect']) . '</a>';
 	$can_associate = FALSE;
 }
 
 ?>
 <script type="text/javascript">
 function confirm_user(username, id) {
-	var text = prompt('Razón del Facepalm para ' + username + '?');
+	var text = prompt('<?php echo htmlentities($i18n['reason_to_facepalm_nickname'], ENT_QUOTES); ?>' + username + '?');
 	if (text != null) {
 		location.href = 'index.php?touch=' + id + '&reason=' + encodeURI(text);
 	}
@@ -51,39 +58,45 @@ function confirm_user(username, id) {
 <style type="text/css">
 tr.self td { font-size: 20px; }
 </style>
-Una aplicaci&oacute;n que trackea cu&aacute;nto tiempo pasamos sin pensar "qu&eacute; boludo que soy" al son de una palmada en la frente.<br />Cada vez que uno se manda una boludez, debe venir a clickear "facepalm" para resetear el contador.
+<?php if ($lang != 'en') { ?>
+<a href="index.php?lang=en">English</a>
+<?php } ?>
+<?php if ($lang != 'es') { ?>
+<a href="index.php?lang=es">Spanish</a>
+<?php } ?>
+<br />
+<?php echo nl2br(htmlentities($i18n['description'])); ?>
 <?php if (isset($_COOKIE['id-user'])) { ?>
 <?php list($id, $user) = explode('-', $_COOKIE['id-user']); ?>
 <br /><br />
-Bienvenido <?php echo $user; ?><br />
+<?php echo htmlentities($i18n['welcome'] . ' ' . $user); ?><br />
 <a href="javascript:void(null)" onclick="confirm_user('<?php echo htmlentities($user, ENT_QUOTES) . '\',' . $id; ?>); return false" style="text-align:center;border:2px solid #999; line-height:24px;text-decoration:none;display:block;background:#000; color:#fff; width:100px; height: 24px;">Facepalm</a><br />
 <?php } ?>
 <br /><br />
 <?php
-echo '<form action="index.php" method="post"><table><tr><th></th><th>Nombre</th><th>Fecha</th></tr>';
-foreach ($users as $usuario)
+echo '<form action="index.php" method="post"><table><tr><th></th><th>' . $i18n['name'] . '</th><th>' . $i18n['date'] . '</th></tr>';
+foreach ($users as $user)
 {
-        echo '<tr' . ($usuario->id != $id ? '' : ' class="self"') . '>';
-		if ($can_associate && $usuario->facebook_id == '') echo '<td><a href="https://graph.facebook.com/oauth/authorize?client_id=146881561998534&redirect_uri=http://facepalm.delapalo.net/associate_facebook.php?id=' . $usuario->id . '&scope=publish_stream,offline_access">Asociar a Facebook</a></td>';
-		else if ($uid > 0 && $uid == $usuario->facebook_id) echo '<td>Vos</td>';
+        echo '<tr' . ($user->id != $id ? '' : ' class="self"') . '>';
+		if ($can_associate && $user->facebook_id == '') echo '<td><a href="https://graph.facebook.com/oauth/authorize?client_id=146881561998534&redirect_uri=' . $config['base_url'] . 'associate_facebook.php?id=' . $user->id . '&scope=publish_stream,offline_access">Asociar a Facebook</a></td>';
+		else if ($uid > 0 && $uid == $user->facebook_id) echo '<td>' . htmlentities($i18n['you']) . '</td>';
 		else echo '<td></td>';
-		echo '<td>' , htmlentities($usuario->nombre, ENT_QUOTES) , '</td>
-		<td'. ($usuario->fecha + 60 * 60 * 24 < time() ? ' style="color:#f00"' : '') . '>' .date('Y-m-d H:i:s', $usuario->fecha) .' </td>
-		<td><a href="javascript:confirm_user(\'' . htmlentities($usuario->nombre, ENT_QUOTES) . '\',' . $usuario->id . '); return false">Facepalm!</a></td>
-		<td><a href="index.php?borrar=' . $usuario->id . '" onclick="if(!confirm(\'tas seguro, flakito?\')) return false">Borrar</a></td>
-		<td><input type="hidden" name="old_nombre['. $usuario->id .']" value="' , htmlentities($usuario->nombre, ENT_QUOTES) , '" /><input type="hidden" name="old_gustos['.$usuario->id .']" value="' , htmlentities($usuario->gustos, ENT_QUOTES) , '" /><input type="hidden" name="old_heladeria['.$usuario->id .']" value="' , htmlentities($usuario->heladeria, ENT_QUOTES) , '" /></td>
-		<td width="60%"><div style="background:blue; width: '. round((time() - $usuario->fecha) / 60 / 60 / 24 * 100 / 30,2) . '%; height:10px;"</td>
+		echo '<td>' , htmlentities($user->nombre, ENT_QUOTES) , '</td>
+		<td'. ($user->fecha + 60 * 60 * 24 < time() ? ' style="color:#f00"' : '') . '>' .date('Y-m-d H:i:s', $user->fecha) .' </td>
+		<td><a href="javascript:confirm_user(\'' . htmlentities($user->nombre, ENT_QUOTES) . '\',' . $user->id . '); return false">Facepalm!</a></td>
+		<td><a href="index.php?borrar=' . $user->id . '" onclick="if(!confirm(\'' . htmlentities($i18n['confirmation'], ENT_QUOTES) . '\')) return false">' . $i18n['delete'] . '</a></td>
+		<td width="60%"><div style="background:blue; width: '. round((time() - $user->fecha) / 60 / 60 / 24 * 100 / 30,2) . '%; height:10px;"</td>
 	</tr>';
 }
 ?>
 <tr>
 <td colspan="2"><input type="text" name="nombre_nuevo" /></td>
 </tr>
-<tr><td colspan="2"><input type="submit" value="Guardar" /></td></tr>
+<tr><td colspan="2"><input type="submit" value="<?php echo $i18n['save']; ?>" /></td></tr>
 <?php
 echo '</table></form>';
 echo $fb_button;
-if ($uid > 0) echo ' <a href="' . $facebook->getLogoutUrl() .'" onclick="if (!confirm(\'Esto no va a evitar que se posteen tus facepalms.\')) return false;">Salir de Facebook</a>';
+if ($uid > 0) echo ' <a href="' . $facebook->getLogoutUrl() .'" onclick="if (!confirm(\'' . htmlentities($i18n['facebook_logout_warning'], ENT_QUOTE) .'\')) return false;">' . htmlentities($i18n['facebook_logout']) .'</a>';
 ?>
 
 <div>
