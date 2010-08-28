@@ -42,7 +42,7 @@ if ($facebook->getSession()) {
 	if (!$can_associate) $fb_button = '<a href="remove_facebook.php">' . htmlentities($i18n['facebook_disconnect'], ENT_QUOTES, 'UTF-8') . '</a>';
 	else $fb_button = '';
 } else {
-	$fb_button = '<a href="' . $facebook->getLoginUrl() . '">' . htmlentities($i18n['facebook_disconnect'], ENT_QUOTES, 'UTF-8') . '</a>';
+	$fb_button = '<a href="' . $facebook->getLoginUrl() . '">' . htmlentities($i18n['facebook_connect'], ENT_QUOTES, 'UTF-8') . '</a>';
 	$can_associate = FALSE;
 }
 
