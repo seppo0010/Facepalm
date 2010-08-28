@@ -12,3 +12,6 @@ $i18n['welcome'] = 'Bienvenido';
 $i18n['name'] = 'Nombre';
 $i18n['date'] = 'Fecha';
 $i18n['you'] = 'Vos';
+$i18n['latest'] = 'Recientes';
+$i18n['popular'] = 'Popular';
+$i18n['back'] = 'Volver';

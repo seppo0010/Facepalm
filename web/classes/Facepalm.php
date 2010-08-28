@@ -137,4 +137,11 @@ class Facepalm {
 		if ($user == null) return null;
 		else return $user->id > 0;
 	}
+
+	static function fetchLogs($order) {
+		$query = self::$db->query('SELECT facepalm_log.reason, facepalm_log.fecha, facepalm.nombre FROM facepalm_log JOIN facepalm ON facepalm_log.user_id = facepalm.id ORDER BY ' . $order . ' LIMIT 20');
+		$return = array();
+		while ($row = $query->fetchObject()) $return[] = $row;
+		return $return;
+	}
 }
