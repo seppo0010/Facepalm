@@ -1,4 +1,4 @@
 Setup the Enviroment
 
-It requires PDO, PDO_sqlite (enable the extensions on php.ini) and writing permissions on the current folder to create the database.
+It requires PDO, PDO_sqlite (enable the extensions on php.ini) and writing permissions on the root folder to create the database.
 For API enable json extension.
