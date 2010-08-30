@@ -26,8 +26,8 @@ $facepalms = Facepalm::fetchLogs(!empty($_GET['user_id']) ? $_GET['user_id'] : N
 		<?php foreach ($facepalms as $facepalm) { ?>
 			<tr>
 				<?php if (empty($_COOKIE['voted_'. $facepalm->id])) { ?>
-					<td><a href="facepalms.php?order=<?php echo htmlentities($_GET['order']); ?>&user_id=<?php echo htmlentities($_GET['user_id']); ?>&vote=up&id=<?php echo $facepalm->id; ?>">+</a></td>
-					<td><a href="facepalms.php?order=<?php echo htmlentities($_GET['order']); ?>&user_id=<?php echo htmlentities($_GET['user_id']); ?>&vote=down&id=<?php echo $facepalm->id; ?>">-</a></td>
+					<td><a href="facepalms.php?order=<?php echo htmlentities($_GET['order']); ?>&user_id=<?php echo htmlentities($_GET['user_id']); ?>&vote=up&id=<?php echo $facepalm->id; ?>"><img src="images/up.png" /></a></td>
+					<td><a href="facepalms.php?order=<?php echo htmlentities($_GET['order']); ?>&user_id=<?php echo htmlentities($_GET['user_id']); ?>&vote=down&id=<?php echo $facepalm->id; ?>"><img src="images/down.png" /></a></td>
 				<?php } else { ?>
 					<td></td>
 					<td></td>
