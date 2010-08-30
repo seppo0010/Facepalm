@@ -95,7 +95,6 @@ foreach ($users as $user)
 		echo '<td><a href="facepalms.php?user_id=' . $user->id . '">' , htmlentities($user->nombre, ENT_QUOTES, 'UTF-8') , '</a></td>
 		<td'. ($user->fecha + 60 * 60 * 24 < time() ? ' style="color:#f00"' : '') . '>' .date('Y-m-d H:i:s', $user->fecha) .' </td>
 		<td><a href="javascript:confirm_user(\'' . htmlentities($user->nombre, ENT_QUOTES, 'UTF-8') . '\',' . $user->id . '); return false">Facepalm!</a></td>
-		<td><a href="index.php?borrar=' . $user->id . '" onclick="if(!confirm(\'' . htmlentities($i18n['confirmation'], ENT_QUOTES, 'UTF-8') . '\')) return false">' . $i18n['delete'] . '</a></td>
 		<td width="60%"><div style="background:blue; width: '. round((time() - $user->fecha) / 60 / 60 / 24 * 100 / 30,2) . '%; height:10px;"</td>
 	</tr>';
 }
