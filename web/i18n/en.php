@@ -15,3 +15,6 @@ $i18n['you'] = 'You';
 $i18n['latest'] = 'Latest';
 $i18n['popular'] = 'Popular';
 $i18n['back'] = 'Back';
+$i18n['reason_to_facepalm'] = 'Reason to facepalm?';
+$i18n['add_to_bookmark'] = 'Add to bookmark';
+$i18n['drag_drop_to_bookmarks'] = '(drag this link to your bookmark bar)';

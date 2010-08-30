@@ -15,3 +15,6 @@ $i18n['you'] = 'Vos';
 $i18n['latest'] = 'Recientes';
 $i18n['popular'] = 'Popular';
 $i18n['back'] = 'Volver';
+$i18n['reason_to_facepalm'] = 'Razón para facepalm?';
+$i18n['add_to_bookmark'] = 'Agregar a marcadores';
+$i18n['drag_drop_to_bookmarks'] = '(Arrastre este link a su barra de marcadores)';

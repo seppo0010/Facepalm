@@ -81,6 +81,7 @@ tr.self td { font-size: 20px; }
 <br /><br />
 <?php echo htmlentities($i18n['welcome'] . ' ' . $user, ENT_QUOTES, 'UTF-8'); ?><br />
 <a href="javascript:void(null)" onclick="confirm_user('<?php echo htmlentities($user, ENT_QUOTES, 'UTF-8') . '\',' . $id; ?>); return false" style="text-align:center;border:2px solid #999; line-height:24px;text-decoration:none;display:block;background:#000; color:#fff; width:100px; height: 24px;">Facepalm</a><br />
+<a href="javascript:var a=prompt('<?php echo htmlentities($i18n['reason_to_facepalm_nickname'], ENT_QUOTES, 'UTF-8'); ?>');if(!a)return;location.href='http://facepalm.delapalo.net/?touch=21&reason='+encodeURI(a);">Facepalm</a> <?php echo htmlentities($i18n['drag_drop_to_bookmarks'], ENT_QUOTES, 'UTF-8'); ?>
 <?php } ?>
 <br /><br />
 <?php
