@@ -139,9 +139,13 @@ class Facepalm {
 	}
 
 	static function fetchLogs($user_id, $order) {
-		$query = self::$db->query('SELECT facepalm_log.user_id, facepalm_log.reason, facepalm_log.fecha, facepalm.nombre FROM facepalm_log JOIN facepalm ON facepalm_log.user_id = facepalm.id ' . ($user_id === NULL ? '' : ' WHERE facepalm_log.user_id = ' . (int)$user_id ) . ' ORDER BY ' . $order . ' LIMIT 20');
+		$query = self::$db->query('SELECT facepalm_log.id, facepalm_log.user_id, facepalm_log.reason, facepalm_log.fecha, facepalm.nombre, facepalm_log.vote_up, facepalm_log.vote_down FROM facepalm_log JOIN facepalm ON facepalm_log.user_id = facepalm.id ' . ($user_id === NULL ? '' : ' WHERE facepalm_log.user_id = ' . (int)$user_id ) . ' ORDER BY ' . $order . ' LIMIT 20');
 		$return = array();
 		while ($row = $query->fetchObject()) $return[] = $row;
 		return $return;
+	}
+
+	static function vote($id, $is_up) {
+		self::$db->query('UPDATE facepalm_log SET vote_' . ($is_up ? 'up' : 'down') . ' = vote_' . ($is_up ? 'up' : 'down') . ' + 1 WHERe id = ' . $id);
 	}
 }

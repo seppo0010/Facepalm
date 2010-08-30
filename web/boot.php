@@ -14,7 +14,7 @@ $database = new PDO('sqlite:' . $filename);
 if ($is_new_database)
 {
         $database->query('CREATE TABLE facepalm ( id INTEGER PRIMARY KEY, nombre TEXT unique, fecha NUMERIC )');
-        $database->query('CREATE TABLE facepalm_log ( id INTEGER PRIMARY KEY, user_id NUMERIC, fecha NUMERIC, reason TEXT )');
+        $database->query('CREATE TABLE facepalm_log ( id INTEGER PRIMARY KEY, user_id NUMERIC, fecha NUMERIC, reason TEXT, vote_up NUMERIC, vote_down NUMERIC )');
         $database->query('CREATE TABLE user_mail ( id INTEGER PRIMARY KEY, user_id NUMERIC, email_hash TEXT unique )');
 		$database->query('CREATE TABLE social_network (id INTEGER PRIMARY KEY,  facepalm_id INTEGER, network_id INTEGER, public_info TEXT NOT NULL, access_token TEXT NOT NULL )');
 }

@@ -73,7 +73,7 @@ tr.self td { font-size: 20px; }
 <?php } ?>
 <br />
 <a href="facepalms.php?order=latest"><?php echo htmlentities($i18n['latest'], ENT_QUOTES, 'UTF-8'); ?></a>
-<!--a href="facepalms.php?order=popular"><?php echo htmlentities($i18n['popular'], ENT_QUOTES, 'UTF-8'); ?></a-->
+<a href="facepalms.php?order=popular"><?php echo htmlentities($i18n['popular'], ENT_QUOTES, 'UTF-8'); ?></a>
 <br />
 <?php echo nl2br(htmlentities($i18n['description'], ENT_QUOTES, 'UTF-8')); ?>
 <?php if (isset($_COOKIE['id-user'])) { ?>
