@@ -110,6 +110,7 @@ if ($uid > 0) echo ' <a href="' . $facebook->getLogoutUrl() .'" onclick="if (!co
 ?>
 
 <div>
+<img src="facepalm2.jpg" /><br /><br />
 <pre style="font-size:11px;font-family:Verdana, Arial, Helvetica, sans-serif;line-height: 8px;">
 <?php
 $ascii_art = <<<ascii
