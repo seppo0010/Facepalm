@@ -81,7 +81,7 @@ tr.self td { font-size: 20px; }
 <br /><br />
 <?php echo htmlentities($i18n['welcome'] . ' ' . $user, ENT_QUOTES, 'UTF-8'); ?><br />
 <a href="javascript:void(null)" onclick="confirm_user('<?php echo htmlentities($user, ENT_QUOTES, 'UTF-8') . '\',' . $id; ?>); return false" style="text-align:center;border:2px solid #999; line-height:24px;text-decoration:none;display:block;background:#000; color:#fff; width:100px; height: 24px;">Facepalm</a><br />
-<a href="javascript:var a=prompt('<?php echo htmlentities($i18n['reason_to_facepalm_nickname'], ENT_QUOTES, 'UTF-8'); ?>');if(!a)return;location.href='http://facepalm.delapalo.net/?touch=21&reason='+encodeURI(a);">Facepalm</a> <?php echo htmlentities($i18n['drag_drop_to_bookmarks'], ENT_QUOTES, 'UTF-8'); ?>
+<a href="javascript:var a=prompt('<?php echo htmlentities($i18n['reason_to_facepalm_nickname'], ENT_QUOTES, 'UTF-8'); ?>');if(!a)return;location.href='<?php echo $config['base_url']; ?>?touch=21&reason='+encodeURI(a);">Facepalm</a> <?php echo htmlentities($i18n['drag_drop_to_bookmarks'], ENT_QUOTES, 'UTF-8'); ?>
 <?php } ?>
 <br /><br />
 <?php
@@ -89,12 +89,12 @@ echo '<form action="index.php" method="post"><table><tr><th></th><th>' . $i18n['
 foreach ($users as $user)
 {
         echo '<tr' . ($user->id != $id ? '' : ' class="self"') . '>';
-		if ($can_associate && Facepalm::hasFacebook($user->id) == FALSE) echo '<td><a href="https://graph.facebook.com/oauth/authorize?client_id=146881561998534&redirect_uri=' . $config['base_url'] . 'associate_facebook.php?id=' . $user->id . '&scope=publish_stream,offline_access">Asociar a Facebook</a></td>';
+		if ($can_associate && Facepalm::hasFacebook($user->id) == FALSE) echo '<td><a href="https://graph.facebook.com/oauth/authorize?client_id=' . $config['facebook_app_id'] . '&redirect_uri=' . $config['base_url'] . 'associate_facebook.php?id=' . $user->id . '&scope=publish_stream,offline_access">Asociar a Facebook</a></td>';
 		else if ($facepalm_fb != null && $user->id == $facepalm_fb->id) echo '<td>Facebook</td>';
 		else echo '<td></td>';
 		echo '<td><a href="facepalms.php?user_id=' . $user->id . '">' , htmlentities($user->nombre, ENT_QUOTES, 'UTF-8') , '</a></td>
 		<td'. ($user->fecha + 60 * 60 * 24 < time() ? ' style="color:#f00"' : '') . '>' .date('Y-m-d H:i:s', $user->fecha) .' </td>
-		<td><a href="javascript:confirm_user(\'' . htmlentities($user->nombre, ENT_QUOTES, 'UTF-8') . '\',' . $user->id . '); return false">Facepalm!</a></td>
+		<td><a href="javascript:void(null)" onclick="confirm_user(\'' . htmlentities($user->nombre, ENT_QUOTES, 'UTF-8') . '\',' . $user->id . '); return false">Facepalm!</a></td>
 		<td width="60%"><div style="background:blue; width: '. round((time() - $user->fecha) / 60 / 60 / 24 * 100 / 30,2) . '%; height:10px;"</td>
 	</tr>';
 }

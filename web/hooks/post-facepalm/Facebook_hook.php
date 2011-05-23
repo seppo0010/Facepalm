@@ -14,13 +14,13 @@ class Facebook_hook {
 		else $str = 'Facepalm ' . $reason;
 		$credentials = $this->user->getSocialNetworkCredentiales(SOCIAL_NETWORK_FACEBOOK);
 		if (!$credentials) return;
+		$base_url = $GLOBALS['config']['base_url'];
 		$response = Curl::do_post('https://graph.facebook.com/me/feed', array(
 			'message' => $str,
 			'access_token' => $credentials->access_token,
-			'picture' => 'http://facepalm.delapalo.net/facepalm1.jpg',
-			'link' => 'http://facepalm.delapalo.net/',
+			'picture' => $base_url . 'facepalm1.jpg',
+			'link' => $base_url,
 			'name' => 'Facepalm!',
-			'source' => 'facepalm.delapalo.net',
 		));
 	}
 }
